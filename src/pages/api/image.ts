@@ -7,9 +7,15 @@ import nc from "next-connect";
 const handler = nc<NextApiRequest, NextApiResponse>()
   .use(upload.single("file"))
   .post((req, res) => {
-    return res.json({
-      imageUrl: req.file.location,
-    });
+    try {
+      return res.json({
+        imageUrl: req.file?.location,
+      });
+    } catch(err) {
+      console.log(err)
+
+      res.status(500).end()
+    }
   });
 
 export const config = {
