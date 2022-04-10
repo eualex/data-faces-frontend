@@ -9,7 +9,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
   .post((req, res) => {
     try {
       return res.json({
-        imageUrl: req.file?.location,
+        imageUrl: req.file.location,
       });
     } catch(err) {
       console.log(err)

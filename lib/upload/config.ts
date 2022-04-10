@@ -19,11 +19,15 @@ export const upload = multer({
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata(req, file, cb) {
+      console.log(file);
+      
       cb(null, {
         fieldName: file.fieldname
       })
     },
     key(req, file, cb) {
+      console.log('chegou');
+      
       crypto.randomBytes(16, (err, hash) => {
         if (err) cb(err)
 

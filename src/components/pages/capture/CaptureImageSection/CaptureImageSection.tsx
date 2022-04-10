@@ -6,6 +6,7 @@ import * as S from "./CaptureImageSection.styles";
 import axios from "axios";
 import { Loading } from "@/components/shared/form";
 import { notify } from "@/utils/helpers/notify";
+import { useRouter } from "next/router";
 
 const videoConstraints = {
   width: 500,
@@ -15,31 +16,41 @@ const videoConstraints = {
 
 export function CaptureImageSection() {
   const webcamRef = useRef(null);
+  const { push } = useRouter()
 
   const [isLoading, setIsLoading] = useState(false);
+  // const [image, setImage] = useState('');
 
   const capture = useCallback(async () => {
-    const imageSrc = webcamRef.current.getScreenshot();
+    // const imageSrc = webcamRef.current.getScreenshot();
 
-    const formData = new FormData();
+    // setImage(imageSrc)
 
-    formData.append("file", imageSrc);
+    setIsLoading(true)
 
-    setIsLoading(true);
+    setTimeout(() => {
+      push('/')
+    }, 2000)
+  }, [push]);
 
-    console.log(formData.getAll('file'))
+  // async function handleSubmitImage() {
+    // try {
+    //   const { data } = await axios.post("/api/image", formData);
 
-    try {
-      const { data } = await axios.post("/api/image", formData);
+    //   console.log(data);
+    // } catch (err) {
+    //   console.log(err);
+    //   notify("error", "Ocorreu um erro ao buscar este usuário");
+    // } finally {
+    //   setIsLoading(false);
+    // }
 
-      console.log(data)
-    } catch (err) {
-      console.log(err);
-      notify("error", "Ocorreu um erro ao buscar este usuário");
-    } finally {
-      setIsLoading(false)
-    }
-  }, [webcamRef]);
+    // const formData = new FormData();
+
+    // formData.append("file", image)
+
+    // setIsLoading(true)
+  // }
 
   return (
     <S.Container>
@@ -51,11 +62,12 @@ export function CaptureImageSection() {
 
       <S.WebcamContainer>
         <Webcam
-          audio={false}
-          height={300}
           ref={webcamRef}
+          width={300}
+          height={200}
+          audio={false}
+          screenshotQuality={1}
           screenshotFormat="image/jpeg"
-          width={500}
           videoConstraints={videoConstraints}
         />
 
