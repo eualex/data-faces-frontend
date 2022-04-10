@@ -1,0 +1,15 @@
+import { client } from '@/graphql/setup'
+import { QUERY } from './query'
+import { {{pascalCase name}}Types } from './types'
+
+export async function get{{pascalCase name}}() {
+  try {
+    const response = await client.query<{{pascalCase name}}Types.Response>({ query: QUERY })
+  } catch (e) {
+    console.log(e)
+
+    return null
+  }
+}
+
+export type { {{pascalCase name}}Types }
