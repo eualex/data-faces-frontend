@@ -18,37 +18,45 @@ const videoConstraints = {
 
 export function CaptureImageSection() {
   const webcamRef = useRef(null);
-  const { push } = useRouter()
+  const { push } = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const capture = useCallback(async () => {
-    setIsLoading(true)
+    webcamRef.current.getScreenshot()
 
-    webcamRef.current.canvas.toBlob(async (blob: Blob) => {
-      try {
-        const formData = new FormData()
-  
-        formData.append('files', blob)
-  
-        const { data } = await api.post("/person/identify", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          params: {
-            groupId: 'prisioners_02'
-          }
-        });
-  
-        console.log(data);
-      } catch (err) {
-        console.log(err);
-        notify("error", "Ocorreu um erro ao buscar este usuário");
-      } finally {
-        setIsLoading(false);
-      }
-    })
-  }, []);
+    if (webcamRef.current.canvas) {
+      webcamRef.current.canvas.toBlob(async (blob: Blob) => {
+        setIsLoading(true)
+
+        try {
+          const formData = new FormData();
+
+          formData.append("files", blob);
+
+          const { data } = await api.post("/person/identify", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            params: {
+              groupId: "prisioners_02",
+            },
+          });
+
+          notify('success', 'Usuário reconhecido')
+
+          setTimeout(() => {
+            push('/')
+          }, 1500)
+        } catch (err) {
+          console.log(err);
+          notify("error", "Ocorreu um erro ao buscar este usuário");
+        } finally {
+          setIsLoading(false);
+        }
+      });
+    }
+  }, [push]);
 
   return (
     <S.Container>
