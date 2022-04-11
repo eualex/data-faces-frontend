@@ -9,6 +9,7 @@ import { api } from "@/utils/services/axios.service";
 import { Loading } from "@/components/shared/form";
 
 import * as S from "./CaptureImageSection.styles";
+import { usePrisioner } from "@/context/PrisionerContext";
 
 const videoConstraints = {
   width: 500,
@@ -17,6 +18,8 @@ const videoConstraints = {
 };
 
 export function CaptureImageSection() {
+  const { setImage, setName } = usePrisioner()
+
   const webcamRef = useRef(null);
   const { push } = useRouter();
 
@@ -43,6 +46,9 @@ export function CaptureImageSection() {
             },
           });
 
+          setImage(data.imageURL)
+          setName(data.nome)
+
           notify('success', 'Usuário reconhecido')
 
           setTimeout(() => {
@@ -56,7 +62,7 @@ export function CaptureImageSection() {
         }
       });
     }
-  }, [push]);
+  }, [push, setImage, setName]);
 
   return (
     <S.Container>

@@ -1,11 +1,23 @@
+import { usePrisioner } from "@/context/PrisionerContext";
 import Image from "next/image";
 import * as S from "./Aside.styles";
 
 export function Aside() {
+  const { image, name } = usePrisioner();
+
+  const splittedName = name.split(' ')
+
+  const shortName = splittedName.length > 2 ? `${splittedName[0]} ${splittedName[1]}` : name
+
   return (
     <S.Container>
       <S.AsideHeader>
-        <Image src="/logo.svg" alt="logo data-faces" width={190} height={60} />
+        <Image
+          src={"/logo.svg"}
+          alt="logo data-faces"
+          width={190}
+          height={60}
+        />
       </S.AsideHeader>
 
       <S.Wrapper>
@@ -19,14 +31,14 @@ export function Aside() {
             />
           </S.ImageContainer>
 
-          <h1>Alberto da Cunha</h1>
+          <h1>{shortName}</h1>
           <p>Pavilhão B</p>
         </S.HighlightInformation>
 
         <S.UserDetail>
           <div>
             <p>Nome completo</p>
-            <h3>Alberto da Cunha Silva</h3>
+            <h3>{name}</h3>
           </div>
           <div>
             <p>Idade</p>
