@@ -32,7 +32,7 @@ export function CaptureImageSection() {
         try {
           const formData = new FormData();
 
-          formData.append("files", blob);
+          formData.append("file", blob);
 
           const { data } = await api.post("/person/identify", formData, {
             headers: {
