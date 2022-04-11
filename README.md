@@ -12,6 +12,14 @@ entre na pasta do projeto
 cd data-faces-frontend
 ```
 
+instale as dependencias do projeto
+
+```bash
+yarn install
+# ou
+npm install
+```
+
 agora, no seu terminal, execute
 
 ```bash
